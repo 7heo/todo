@@ -1,19 +1,26 @@
 #include <stdio.h>
 #include "operations.h"
 
-#define declareAsOperation(name) int name(int argc, char* argv[])
+#define ADD_OPERATION(NAME)  { #NAME, &NAME}
 
-declareAsOperation(add)
+int add(int argc, char* argv[])
 {
-	printf("Add function called.\n");
-	return 0;
+	return 1;
 }
 
-const char* availableOperations[] = {"add","remove","delete"};
+typedef struct op
+{
+  char *name;
+  int (*function)(int, char**);
+} operation;
+
+operation availableOperations[] =
+{
+  ADD_OPERATION(add),
+};
 
 int (*selectOperation(const char* name))(int, char**)
 {
-	int res;
 	if(!strcmp(name, "add"))
 		return &add;
 	return NULL;
