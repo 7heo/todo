@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
+		errNum = SUCCESS;
 		char** operationArgs = NULL;
 		int opArgsCount = 0; // The compiler would remove this allocation, it's here only as a dumb-proof feature.
 		for(opArgsCount = 0; opArgsCount < (argc - 2); opArgsCount++)
@@ -21,6 +22,7 @@ int main(int argc, char* argv[])
 		}
 		if(!doOperation(argv[1], opArgsCount, operationArgs))
 		{
+			printErr(NULL);
 			printUsage();
 		}
 		free(operationArgs);

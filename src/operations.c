@@ -1,29 +1,52 @@
 #include <stdio.h>
+#include <string.h>
 #include "operations.h"
+#include "defaultFunctions.h"
 
-#define ADD_OPERATION(NAME)  { #NAME, &NAME}
-
-int add(int argc, char* argv[])
-{
-	return 1;
-}
-
-typedef struct op
-{
-  char *name;
-  int (*function)(int, char**);
-} operation;
+#define ADD_OPERATION(NAME)  {#NAME, &NAME}
 
 operation availableOperations[] =
 {
   ADD_OPERATION(add),
+  { NULL, NULL }	// End marker.
 };
+
+int add(int argc, char* argv[])
+{
+	printf("Add function called.\n");
+	return 1;
+}
 
 int (*selectOperation(const char* name))(int, char**)
 {
-	if(!strcmp(name, "add"))
-		return &add;
-	return NULL;
+	// find the unique operation based on user input. If none ore multiple operations correspond, return NULL.
+	int currentIndex = 0;
+	int subStrLen = strlen(name);
+	int foundIndexCounter = 0;
+	int foundIndex = 0;
+	for(currentIndex = 0; availableOperations [ currentIndex ].name != NULL; currentIndex++)
+	{
+		if(subStrCmp(availableOperations [ currentIndex ].name, name, subStrLen))
+		{
+			foundIndex = currentIndex;
+			foundIndexCounter++;
+		}
+	}
+	switch(foundIndexCounter)
+	{
+	case 0:
+		// Noting found. No need to try with more characters.
+		errNum = NOT_IMPLEMENTED;
+		return NULL;
+		break;
+	case 1:
+		return availableOperations[foundIndex].function;
+		break;
+	default:
+		// Multiple operations found. Set error number and fail.
+		errNum = NOT_DETERMINATIVE;
+		return NULL;
+	}
 }
 
 int doOperation(const char* opName, int argc, char* argv[])
@@ -33,7 +56,6 @@ int doOperation(const char* opName, int argc, char* argv[])
 	funcPtr = selectOperation(opName);
 	if(!funcPtr)
 	{
-		printErr("Error: Operation %s isn't implemented.\n", opName);
 		return 0;
 	}
 	return (*funcPtr)(argc, argv);
