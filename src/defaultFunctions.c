@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+
+#include "operations.h"
 #include "defaultFunctions.h"
 
 const char* ERR_TAB[] =
@@ -33,7 +35,7 @@ void printErr(const char* fmt, ...)
 {
 	if(fmt == NULL)
 	{
-		fprintf(stderr, "ERROR: %s\n", ERR_TAB[errNum]);
+		fprintf(stderr, "Error: %s\n", ERR_TAB[errNum]);
 	}
 	else
 	{
@@ -44,7 +46,13 @@ void printErr(const char* fmt, ...)
 	}
 }
 
+extern operation availableOperations[];
+
 void printUsage(void)
 {
-	printErr("Usage : not computed yet. Sorry.\n");
+	int i = 0;
+	printErr("Usage : todo <operation> [arguments]\n");
+	printErr("Available operations:\n");
+	for(i = 0; availableOperations[i].name != NULL; i++)
+		printErr("\t%s\n", availableOperations[i].name);
 }

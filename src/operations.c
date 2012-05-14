@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <string.h>
+
 #include "operations.h"
 #include "defaultFunctions.h"
 
+// Don't forget to also ADD the operations in the next table.
 #define ADD_OPERATION(NAME)  {#NAME, &NAME}
-
-operation availableOperations[] =
+const operation availableOperations[] =
 {
   ADD_OPERATION(add),
   { NULL, NULL }	// End marker.
 };
+// End of operations table.
 
 int add(int argc, char* argv[])
 {
