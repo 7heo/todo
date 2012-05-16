@@ -6,5 +6,8 @@ todo:
 	@echo $(AR) libthings.a *.o; $(AR) -cvq libthings.a *.o
 	@echo $(CC) $@;$(CC) $@.c -L. -lthings -o $@
 
+xmltest:
+	 gcc xmltest.c -I/usr/include/libxml2/ -lxml2 -o xmltest
+
 clean:
-	rm todo *.o *.a
+	rm todo xmltest *.o *.a
