@@ -1,10 +1,21 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
+/***************************************************************************\
+ *
+ *
+ *
+\***************************************************************************/
 
-#include "operations.h"
-#include "defaultFunctions.h"
+// Including needed standard headers
+#include <stdio.h>	// For basic IO operations
+#include <stdarg.h>	// For variadic function printErr
+#include <string.h>	// For string management (strlen)
 
+// Including needed custom headers
+#include "operations.h"			// The header for available operations implementations
+#include "defaultFunctions.h"	// The header for this file
+
+/***************************************************************************
+ * const string table, to define error messages. Indexes are implicit.
+ ***/
 const char* ERR_TAB[] =
 {
 	"Success",
@@ -12,25 +23,38 @@ const char* ERR_TAB[] =
 	"The first argument corresponds to more than one operation.",
 };
 
+/***************************************************************************
+ * substring comparison function. Returns 1 if substrings are identical,
+ * 0 else.
+ ***/
 int subStrCmp(const char* strA, const char* strB, int subStrLen)
 {
 	int minLen = MIN(strlen(strA), strlen(strB));
 	int c = 0; // Do not remove the = 0, dumb proof feature. c is for counter.
+	// If provided subString length is greater than any of the string's length,
+	// abort the comparison and return false.
 	if(subStrLen > minLen)
 	{
 		return 0;
 	}
+	// increments c up to the subString length as long as characters match.
 	for(c = 0; c < subStrLen && strA[c] == strB[c]; c++)
 	{
-		// do nothing, the check is done in the for condition.
+		;
 	}
+	// if c equals subString length, then they are identical.
 	if(c == subStrLen)
 	{
 		return 1;
 	}
-	return 0;	// different.
+	// else they're not.
+	return 0;
 }
 
+/***************************************************************************
+ * Error printing function. Prints default message (based on internal errNum
+ * value when called without arguments.
+ ***/
 void printErr(const char* fmt, ...)
 {
 	if(fmt == NULL)
@@ -46,8 +70,14 @@ void printErr(const char* fmt, ...)
 	}
 }
 
+/***************************************************************************
+ * Defines the list of available operations as an extern datagram.
+ ***/
 extern operation availableOperations[];
 
+/***************************************************************************
+ * prints default usage.
+ ***/
 void printUsage(void)
 {
 	int i = 0;
