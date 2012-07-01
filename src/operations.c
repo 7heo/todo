@@ -19,21 +19,25 @@ int add(int argc, char* argv[])
 	return 1;
 }
 
+// Returns a function pointer on the selected operation.
 int (*selectOperation(const char* name))(int, char**)
 {
-	// find the unique operation based on user input. If none ore multiple operations correspond, return NULL.
+	// find the unique operation based on user input. If none or multiple operations correspond, return NULL.
 	int currentIndex = 0;
 	int subStrLen = strlen(name);
 	int foundIndexCounter = 0;
 	int foundIndex = 0;
+	// For each defined operation,
 	for(currentIndex = 0; availableOperations [ currentIndex ].name != NULL; currentIndex++)
 	{
+		// Compare the user input with its name.
 		if(subStrCmp(availableOperations [ currentIndex ].name, name, subStrLen))
 		{
 			foundIndex = currentIndex;
 			foundIndexCounter++;
 		}
 	}
+	// Returns the operation function pointer if it exists, else returns NULL.
 	switch(foundIndexCounter)
 	{
 	case 0:
@@ -51,6 +55,7 @@ int (*selectOperation(const char* name))(int, char**)
 	}
 }
 
+// Select and execute an operation.
 int doOperation(const char* opName, int argc, char* argv[])
 {
 	int (*funcPtr)(int, char**);
