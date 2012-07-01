@@ -86,3 +86,12 @@ void printUsage(void)
 	for(i = 0; availableOperations[i].name != NULL; i++)
 		printErr("\t%s\n", availableOperations[i].name);
 }
+
+/***************************************************************************
+ * This function loads the configuration from an XML file and store it into
+ * a structure in RAM.
+ ***/
+int loadConfig(configStruct* cfg)
+{
+	return 0;
+}
