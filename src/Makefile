@@ -1,13 +1,37 @@
+OBJS=operations.o defaultFunctions.o
+
 all: todo
 
-todo:
-	@echo $(CC) -c operations.c;$(CC) -c operations.c
-	@echo $(CC) -c defaultFunctions.c;$(CC) -c defaultFunctions.c
-	@echo $(AR) libthings.a *.o; $(AR) -cvq libthings.a *.o
-	@echo $(CC) $@;$(CC) $@.c -L. -lthings -o $@
+todo: $(OBJ)
+todo: libthings.a
+	@echo $(CC) $@.c
+	@$(CC) $@.c -L. -lthings -o $@
+
+todo.exe: CC=i486-mingw32-gcc
+todo.exe: AR=i486-mingw32-ar
+todo.exe: libthings.a
+	@echo $(CC) $(basename $@).c
+	@$(CC) $(basename $@).c -L. -lthings -o $@
+
+libthings.a: $(OBJS)
+	@echo $(AR) libthings.a $(OBJS)
+	@$(AR) -cvq libthings.a $(OBJS)
+
+%.o: %.c
+	@echo $(CC) -c $*.c
+	@$(CC) -c $*.c
 
 xmltest:
-	 gcc xmltest.c -I/usr/include/libxml2/ -lxml2 -o xmltest
+	$(CC) xmltest.c -I/usr/include/libxml2/ -lxml2 -o xmltest
 
-clean:
-	rm todo xmltest *.o *.a
+clean: cleanlib cleanbin
+
+cleanbin:
+	@echo "cleaning binaries..."
+	@rm -f todo todo.exe
+
+cleanlib:
+	@echo "cleaning objects..."
+	@rm -f xmltest *.o *.a
+
+.PHONY: clean cleanlib cleanbin libthings.a
