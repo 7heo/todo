@@ -1,9 +1,26 @@
 todo
 ====
 
-ToDo list manager and bug tracker
+Simple ToDo script to print out the list of the things to do.
 
-Due to the method used [1] and the technology planned to be used [2], this software sucked a LOT. So for now, there is nothing more than this readme file. The project might as well disappear completely, if moved somewhere else.
+usage
+-----
+Write your todo items in files named after your project, in the ~/.TODO/
+directory.
 
-[1]  [http://dl.garbe.us/The_suckless_org_universe.pdf](http://dl.garbe.us/The_suckless_org_universe.pdf) - page 51/56  
-[2]  [http://harmful.cat-v.org/software/xml/](http://harmful.cat-v.org/software/xml/)
+Then invoke with:
+
+    $ todo
+
+Notes
+-----
+
+- If placed in the `$PATH`, and if the `todo` script name is appended to your
+  `${SHELL}rc`, you will have a reminder about the tasks to do every time you
+  open a shell.
+- If you want to hide a ToDo item, simply hide it from the system (prefix it
+  with a `.` (dot)).
+- If you want to order your ToDo items, simply prefix them with a numeric
+  prefix, followed by a single dash. The will be displayed in the order your
+  shell globs numbers.
+- Empty `.TODO/*` files are ignored.
