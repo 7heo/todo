@@ -1,7 +1,13 @@
 #!/bin/sh
 # vim: ts=4:sw=4
 
+# Config
+_prefix="  "
+
 for file in ~/.TODO/*; do
-	[ -s $file ] && printf "[37;1m%s[30;m\n" "$(basename -- "$file" | sed 's/^[0-9]\+-//; s/_/ /g')"
-	sed '/^\s*$/d; s/^/  /' -- "$file"
+	[ -s "$file" ] && printf "[37;1m%s[30;m\n" "$(basename -- "$file" \
+		| sed 's/^[0-9]\+-//; s/_/ /g')"
+	while read -r line; do
+		printf '%s%s\n' "$_prefix" "$line"
+	done < "$file"
 done
